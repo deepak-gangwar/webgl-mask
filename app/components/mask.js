@@ -94,6 +94,7 @@ export default class Mask {
 				uHit: { value: 0 },
 				uTexture: { value: this.texture },
 				uPlaneRatio: { value: scaling.x / scaling.y },
+                uTime: { value: this.now },
 				// uSpeed: { value: this.settings.speed }
 			}
 		})
@@ -154,8 +155,9 @@ export default class Mask {
 	update(t) {
 		requestAnimationFrame(this.update)
 
-		this.program.uniforms.uMaskPosition.value.x = lerp(this.program.uniforms.uMaskPosition.value.x, this.maskPosition.x, 0.095)
-		this.program.uniforms.uMaskPosition.value.y = lerp(this.program.uniforms.uMaskPosition.value.y, this.maskPosition.y, 0.095)
+        this.program.uniforms.uMaskPosition.value.x = lerp(this.program.uniforms.uMaskPosition.value.x, this.maskPosition.x, 0.085)
+        this.program.uniforms.uMaskPosition.value.y = lerp(this.program.uniforms.uMaskPosition.value.y, this.maskPosition.y, 0.085)
+        this.program.uniforms.uTime.value = this.now
 
 		if (!this.texture.image) {
 			this.texture.image = this.media
