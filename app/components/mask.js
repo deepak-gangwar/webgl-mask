@@ -84,8 +84,8 @@ export default class Mask {
 		//   this.texture.image = img
 		// }
 
-		this.texture = TextureLoader.load(this.gl, { src: "open.jpg" })
-		this.backTexture = TextureLoader.load(this.gl, { src: "closed.jpg" })
+		this.texture = TextureLoader.load(this.gl, { src: "1.jpg" })
+		this.backTexture = TextureLoader.load(this.gl, { src: "2.jpg" })
 
 		this.program = new Program(this.gl, {
 			vertex,
@@ -127,7 +127,7 @@ export default class Mask {
     }
 
     updateSize() {
-		this.gap = 20
+		this.gap = 0
         this.camUnit = this.calculateUnitSize(this.camera.position.z)
         this.planeBCR.width = this.camUnit.width - this.camUnit.width * this.gap / 100
         this.planeBCR.height = this.planeBCR.width / this.camera.aspect
