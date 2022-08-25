@@ -32,7 +32,7 @@ export default class Mask {
 		}
 
         this.wrapper = null
-        this.media = null
+        this.media = this.el.querySelector('[data-gl-image="media"]')
 
 		this.rAF = undefined
 
@@ -47,14 +47,13 @@ export default class Mask {
 	initRenderer() {
 		const canvas = document.querySelector('.webgl')
 		// This for transparent rendrer
-		// this.renderer = new Renderer({ canvas: canvas, dpr: 1, antialias: !0, premultiplyAlpha: !1, alpha: !0  })
-		this.renderer = new Renderer({ canvas: canvas, dpr: 1, antialias: !0 })
+		this.renderer = new Renderer({ canvas: canvas, dpr: 1, antialias: !0, premultiplyAlpha: !1, alpha: !0  })
 		this.renderer.setSize(this.bounds.width, this.bounds.height)
 		
 		this.gl = this.renderer.gl
 		// for clear color, divide rgb value by 255
-		// this.gl.clearColor(247 / 255, 245 / 255, 248 / 255, 1)
-		this.gl.clearColor(1, 1, 1, 1)
+		this.gl.clearColor(247 / 255, 245 / 255, 248 / 255, 1)
+		// this.gl.clearColor(1, 1, 1, 1)
 	}
 	
 	initScene() {
@@ -72,19 +71,29 @@ export default class Mask {
 	}
 
 	initShape() {
-		this.geometry = new Plane(this.gl, { width: 1, height: 9 / 16, widthSegments: 10, heightSegments: 10 })
-		const scaling = new Vec3(10, (9 / 16) * 10, 1)
+		this.geometry = new Plane(this.gl, { width: 1, height: 1, widthSegments: 10, heightSegments: 10 })
+		// const scaling = new Vec3(10, (9 / 16) * 10, 1)
 
-		// this.texture = new Texture(this.gl, { minFilter: this.gl.LINEAR })
+		this.texture = new Texture(this.gl, { 
+			minFilter: this.gl.LINEAR,
+			generateMipmaps: false,
+			width: 1920,
+			height: 1080 
+		})
 
 		// update image value with source once loaded
-		// const img = new Image()
-		// img.src = "1.jpg"
-		// img.onload = () => {
-		//   this.texture.image = img
-		// }
+		const img = new Image()
+		img.src = "reel.mp4"
+		img.onload = () => {
+			this.texture.image = img
+		  
+			if(this.media instanceof HTMLVideoElement) {
+				this.media.load()
+				this.media.play()
+			}
+		}
 
-		this.texture = TextureLoader.load(this.gl, { src: "1.jpg" })
+		// this.texture = TextureLoader.load(this.gl, { src: "1.jpg" })
 
 		this.program = new Program(this.gl, {
 			vertex,
@@ -93,9 +102,6 @@ export default class Mask {
 				uMaskPosition: { value: new Vec2(1, 0) },
 				uHit: { value: 0 },
 				uTexture: { value: this.texture },
-				uPlaneRatio: { value: scaling.x / scaling.y },
-                uTime: { value: this.now },
-				// uSpeed: { value: this.settings.speed }
 			}
 		})
 
@@ -157,12 +163,20 @@ export default class Mask {
 
         this.program.uniforms.uMaskPosition.value.x = lerp(this.program.uniforms.uMaskPosition.value.x, this.maskPosition.x, 0.085)
         this.program.uniforms.uMaskPosition.value.y = lerp(this.program.uniforms.uMaskPosition.value.y, this.maskPosition.y, 0.085)
-        this.program.uniforms.uTime.value = this.now
 
-		if (!this.texture.image) {
-			this.texture.image = this.media
-			this.texture.needsUpdate = true
-		}
+		if(this.media instanceof HTMLVideoElement) {
+            if (this.media.readyState >= this.media.HAVE_ENOUGH_DATA) {
+                if(!this.texture.image) {
+                    this.texture.image = this.media
+                }
+                this.texture.needsUpdate = true
+            }
+        } else if (this.media instanceof HTMLImageElement) {
+            if(!this.texture.image) {
+                this.texture.image = this.media
+                this.texture.needsUpdate = true
+            }
+        }
 
 		this.renderer.render({ scene: this.scene, camera: this.camera })
 		this.now = t

@@ -3,10 +3,7 @@ precision highp float;
 #define PI 3.1415926535897932384626433832795
 
 uniform vec2 uMaskPosition;
-uniform float uPlaneRatio;
 uniform sampler2D uTexture;
-uniform float uTime;
-// uniform float uSpeed;
 
 varying vec2 vUv;
 
@@ -32,29 +29,24 @@ void main() {
     // changes origin from bottom left to center
     vec2 uv = vUv - 0.5;
     // to make it a square
-    uv.x *= uPlaneRatio;
+    uv.x *= 2.0;
 
     vec2 maskSize = vec2(0.3, 0.3);
 
     // Note that we're subtracting HALF of the width and height to position the rectangle at the center of the scene
     // This is like transform: translate(-50%, -50%)
     // vec2 maskPosition = vec2(-0.15, -0.15);
-    vec2 maskPosition = vec2(uMaskPosition.x * uPlaneRatio - 1.05, uMaskPosition.y - 0.65);
+    vec2 maskPosition = vec2(uMaskPosition.x * 2.0 - 1.15, uMaskPosition.y - 0.65);
     vec3 maskColor =  vec3(1.0);
-
-    vec2 maskUV = vec2(
-      uv.x + sin(uTime * 0.003) * sin(uv.y * 5.0) * 0.15,
-      uv.y + cos(uTime * 0.003) * cos(uv.x * 10.0) * 0.15
-    );
 
     vec3 color = vec3(0.0);
     
     // This gives a rectangular mask
-    vec3 mask = Rectangle(maskSize, maskUV, maskPosition, maskColor);
+    // vec3 mask = Rectangle(maskSize, maskUV, maskPosition, maskColor);
 
     // This gives a circular mask
-    // vec2 st = (uv.xy - maskPosition + 0.35);
-    // vec3 mask = vec3(circle(st, 0.3));
+    vec2 st = (uv.xy - maskPosition + 0.35);
+    vec3 mask = vec3(circle(st, 0.3));
 
     
     vec3 texture = texture2D(uTexture, uv * 0.5 + 0.5).rgb;

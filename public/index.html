@@ -107,6 +107,12 @@ body {
   user-select: none;
 }
 
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
 canvas {
   position: absolute;
   top: 0;
@@ -119,4 +125,4 @@ canvas {
 /*
 ** For fixing wierd spacing at top and bottom of saol
 */
-</style></head><body><main class="app"><div class="webgl__wrapper"><div class="gl-image__wrapper"><canvas class="webgl"></canvas></div></div><div class="app__wrapper"></div></main><script src="main.js"></script></body></html>
+</style></head><body><main class="app"><div class="webgl__wrapper"><div class="gl-image__wrapper"><canvas class="webgl"></canvas></div><video src="reel.mp4" autoplay muted loop playisinline="true" role="presentation" data-gl-image="media" crossorigin="anonymous"></video></div><div class="app__wrapper"></div></main><script src="main.js"></script></body></html>
