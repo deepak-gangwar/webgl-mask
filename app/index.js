@@ -1,4 +1,4 @@
-import webgl from "./components/webgl"
+import Mask from "./components/mask"
 
 class App {
     constructor() {
@@ -6,7 +6,7 @@ class App {
     }
 
     init() {
-        new webgl()
+        new Mask()
     }
 }
 

@@ -10,8 +10,12 @@ html(lang="en")
         
         main.app
             // To implement smooth-scrolling
-            .webgl__wrapper 
-                canvas.webgl
+            .webgl__wrapper
+                .gl-image__wrapper 
+                    canvas.webgl
+                //- I would like to remove this item
+                //- video(src='laputa.mp4' autoplay muted loop playisinline='true' role='presentation' data-gl-image='media' crossorigin="anonymous")
+                //- img(src='1.jpg' data-gl-image="media" crossorigin="anonymous")
             .app__wrapper
                 include ./views/partials/transition
 
