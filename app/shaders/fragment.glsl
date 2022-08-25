@@ -42,10 +42,10 @@ void main() {
     vec2 maskPosition = vec2(uMaskPosition.x * uPlaneRatio - 1.05, uMaskPosition.y - 0.65);
     vec3 maskColor =  vec3(1.0);
 
-    // vec2 maskUV = vec2(
-    //   uv.x + sin(uTime * 0.003) * sin(uv.y * 5.0) * 0.15,
-    //   uv.y + cos(uTime * 0.003) * cos(uv.x * 10.0) * 0.15
-    // );
+    vec2 maskUV = vec2(
+      uv.x + sin(uTime * 0.003) * sin(uv.y * 5.0) * 0.15,
+      uv.y + cos(uTime * 0.003) * cos(uv.x * 10.0) * 0.15
+    );
 
     vec3 color = vec3(0.0);
     
