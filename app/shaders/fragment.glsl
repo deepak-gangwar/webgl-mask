@@ -3,6 +3,7 @@ precision highp float;
 uniform vec2 uMaskPosition;
 uniform float uPlaneRatio;
 uniform sampler2D uTexture;
+uniform sampler2D uBackTexture;
 
 varying vec2 vUv;
 
@@ -41,16 +42,18 @@ void main() {
     vec3 color = vec3(0.0);
     
     // This gives a rectangular mask
-    vec3 mask = Rectangle(maskSize, uv, maskPosition, maskColor);
+    // vec3 mask = Rectangle(maskSize, uv, maskPosition, maskColor);
 
     // This gives a circular mask
-    // vec2 st = (uv.xy - maskPosition + 0.35);
-    // vec3 mask = vec3(circle(st, 0.3));
+    vec2 st = (uv.xy - maskPosition + 0.35);
+    vec3 mask = vec3(circle(st, 0.3));
 
     
-    vec3 texture = texture2D(uTexture, uv * 0.5 + 0.5).rgb;
+    // vec3 texture = texture2D(uTexture, uv * 0.5 + 0.5).rgb;
+    vec3 texture = texture2D(uTexture, uv * 0.5 + 0.5).rgb * mask;
+    vec3 backTexture = texture2D(uBackTexture, uv * 0.5 + 0.5).rgb * (1.0 - mask);
 
-    color = texture * mask;
+    color = texture + backTexture;
 
     gl_FragColor = vec4(color, 1.0);
 }

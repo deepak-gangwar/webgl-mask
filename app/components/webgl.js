@@ -70,7 +70,8 @@ export default class webgl {
 		//   this.texture.image = img
 		// }
 
-		this.texture = TextureLoader.load(this.gl, { src: "1.jpg" })
+		this.texture = TextureLoader.load(this.gl, { src: "open.jpg" })
+		this.backTexture = TextureLoader.load(this.gl, { src: "closed.jpg" })
 
 		this.program = new Program(this.gl, {
 			vertex: vertex,
@@ -79,6 +80,7 @@ export default class webgl {
 				uMaskPosition: { value: new Vec2(1, 0) },
 				uHit: { value: 0 },
 				uTexture: { value: this.texture },
+				uBackTexture: { value: this.backTexture },
 				uPlaneRatio: { value: scaling.x / scaling.y },
 				// uSpeed: { value: this.settings.speed }
 			}
