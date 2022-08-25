@@ -85,7 +85,6 @@ export default class Mask {
 		// }
 
 		this.texture = TextureLoader.load(this.gl, { src: "1.jpg" })
-		this.backTexture = TextureLoader.load(this.gl, { src: "2.jpg" })
 
 		this.program = new Program(this.gl, {
 			vertex,
@@ -94,7 +93,6 @@ export default class Mask {
 				uMaskPosition: { value: new Vec2(1, 0) },
 				uHit: { value: 0 },
 				uTexture: { value: this.texture },
-				uBackTexture: { value: this.backTexture },
 				uPlaneRatio: { value: scaling.x / scaling.y },
 				// uSpeed: { value: this.settings.speed }
 			}
