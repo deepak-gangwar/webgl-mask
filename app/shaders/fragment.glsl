@@ -1,5 +1,6 @@
 precision highp float;
 
+uniform vec2 uMaskPosition;
 uniform float uPlaneRatio;
 uniform sampler2D uTexture;
 
@@ -14,6 +15,7 @@ vec3 Rectangle(in vec2 size, in vec2 st, in vec2 p, in vec3 c) {
   return top * right * bottom * left * c;
 }
 
+// Function to create a circle
 float circle(in vec2 _st, in float _radius){
     vec2 dist = _st-vec2(0.5);
 	return 1.-smoothstep(_radius-(_radius*0.01),
@@ -32,7 +34,8 @@ void main() {
 
     // Note that we're subtracting HALF of the width and height to position the rectangle at the center of the scene
     // This is like transform: translate(-50%, -50%)
-    vec2 maskPosition = vec2(-0.15, -0.15);
+    // vec2 maskPosition = vec2(-0.15, -0.15);
+    vec2 maskPosition = vec2(uMaskPosition.x * uPlaneRatio - 1.05, uMaskPosition.y - 0.65);
     vec3 maskColor =  vec3(1.0);
 
     vec3 color = vec3(0.0);
@@ -41,8 +44,9 @@ void main() {
     vec3 mask = Rectangle(maskSize, uv, maskPosition, maskColor);
 
     // This gives a circular mask
-    // vec2 st = uv.xy + 0.5;
+    // vec2 st = (uv.xy - maskPosition + 0.35);
     // vec3 mask = vec3(circle(st, 0.3));
+
     
     vec3 texture = texture2D(uTexture, uv * 0.5 + 0.5).rgb;
 
