@@ -27,34 +27,40 @@ npm run build
 
 <br />
 <br />
-![Mask 1](demo/1.gif)
+
+![Mask1](demo/1.gif)
 
 #### Mask 2
 
 <br />
 <br />
+
 ![Mask 2](demo/2.gif)
 
 #### Mask 3
 
 <br />
 <br />
+
 ![Mask 3](demo/3.gif)
 
 #### Mask 4
 
 <br />
 <br />
+
 ![Mask 4](demo/4.gif)
 
 #### Mask 5
 
 <br />
 <br />
+
 ![Mask 5](demo/5.gif)
 
 #### Mask 6
 
 <br />
 <br />
+
 ![Mask 6](demo/6.gif)
